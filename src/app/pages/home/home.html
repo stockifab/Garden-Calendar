@@ -1,0 +1,53 @@
+<div class="flex h-screen">
+  <as-split gutterSize="8">
+    <as-split-area class="bg-gray-200 p-2" maxSize="30" minSize="10" size="15">
+      <h1 class="text-xl">Crop Calendar</h1>
+      <hr class="my-4" />
+      <p class="text-lg">Filter</p>
+      <form class="flex flex-col gap-2">
+        <div>
+          <label for="search">Search</label>
+          <input
+            [formField]="filter.search"
+            class="w-full p-2 border rounded"
+            id="search"
+            placeholder="Search"
+            type="text"
+          />
+        </div>
+
+        <label>
+          <input [formField]="filter.onlyBookmarked" type="checkbox" />
+          Bookmarked plants only
+        </label>
+
+        <label>
+          <input [formField]="filter.onlyHarvestable" type="checkbox" />
+          Can be harvested this month
+        </label>
+
+        <label>
+          <input [formField]="filter.onlySeedable" type="checkbox" />
+          Can be sown this month
+        </label>
+      </form>
+    </as-split-area>
+    <as-split-area class="w-full h-screen">
+      <div class="h-full flex flex-col">
+        <app-plant-calendar [plants]="filteredPlants()" class="block flex-none duration-300" />
+        @if (filteredPlants().length === 0) {
+          <div class="flex flex-col items-center justify-center gap-6 flex-1">
+            <img alt="" height="256" ngSrc="/images/empty_no_plants.png" width="237" />
+            <div class="flex flex-col items-center">
+              <h2 class="text-2xl font-bold">No plants</h2>
+              <p class="text-lg text-center">
+                There are no plants matching your filter criteria.<br />Adjust your filters to see
+                more.
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    </as-split-area>
+  </as-split>
+</div>

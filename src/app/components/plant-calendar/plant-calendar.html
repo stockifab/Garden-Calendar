@@ -1,0 +1,35 @@
+<table class="w-full overflow-y-scroll">
+  <tr class="sticky top-0 bg-gray-200">
+    <th class="p-1 w-60" scope="col"></th>
+    @for (month of months; track month.value) {
+      <th [class]="{ 'bg-orange-500/40': month.value === currentMonth() }" class="p-1" scope="col">
+        {{ month.label }}
+      </th>
+    }
+  </tr>
+  @for (plant of plants(); track plant.name) {
+    <tr [class.bg-gray-100]="$even">
+      <th class="p-3 text-left" scope="row">
+        <div class="flex justify-between items-center h-full">
+          <p>{{ plant.name }}</p>
+          <button (click)="ps.toggleBookmark(plant)" class="text-gray-500 hover:text-gray-700">
+            @if (ps.isBookmarked(plant)) {
+              <svg color="#525252" fill="#FACC15" lucideBookmark></svg>
+            } @else {
+              <svg lucideBookmark></svg>
+            }
+          </button>
+        </div>
+      </th>
+      @for (month of months; track month.value) {
+        <td
+          [class]="{ 'bg-orange-200/20': month.value === currentMonth() }"
+          class="h-16 align-middle border-l border-l-gray-300"
+        >
+          <div [class.bg-green-300]="ps.isSeeding(plant, month.value)" class="h-5"></div>
+          <div [class.bg-red-300]="ps.isHarvesting(plant, month.value)" class="h-5"></div>
+        </td>
+      }
+    </tr>
+  }
+</table>

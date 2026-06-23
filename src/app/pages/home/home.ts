@@ -1,0 +1,49 @@
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { form, FormField } from '@angular/forms/signals';
+import { SplitAreaComponent, SplitComponent } from 'angular-split';
+import { NgOptimizedImage } from '@angular/common';
+import { PlantCalendar } from '../../components/plant-calendar/plant-calendar';
+import { Plants } from '../../services/plants';
+
+@Component({
+  selector: 'app-home',
+  imports: [PlantCalendar, SplitAreaComponent, SplitComponent, FormField, NgOptimizedImage],
+  templateUrl: './home.html',
+  styles: `
+    :host {
+      --as-gutter-background-color: #5a5a5a;
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class Home {
+  protected readonly ps = inject(Plants);
+
+  protected readonly filter = form(
+    signal({
+      search: '',
+      onlyBookmarked: this.ps.bookmarkedNames().size > 0,
+      onlyHarvestable: false,
+      onlySeedable: false,
+    }),
+  );
+
+  private readonly currentMonth = signal(new Date().getMonth() + 1);
+
+  protected readonly filteredPlants = computed(() => {
+    const { search, onlyBookmarked, onlyHarvestable, onlySeedable } = this.filter().value();
+    const term = search.toLowerCase().trim();
+    const month = this.currentMonth();
+
+    return this.ps.catalog
+      .filter((plant) => {
+        if (onlyBookmarked && !this.ps.isBookmarked(plant)) return false;
+        if (term && !plant.name.toLowerCase().includes(term)) return false;
+        if (onlyHarvestable && !this.ps.isHarvesting(plant, month)) return false;
+        if (onlySeedable && !this.ps.isSeeding(plant, month)) return false;
+
+        return true;
+      })
+      .toSorted((a, b) => a.name.localeCompare(b.name));
+  });
+}
