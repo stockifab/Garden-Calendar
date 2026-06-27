@@ -4,6 +4,8 @@ Know when to sow your plants at a glance. A personal project to practice Angular
 
 ![Banner Image for Garden Calendar](docs/img/screenshot.png)
 
+[🌐 Try it out!](https://stockifab.github.io/Garden-Calendar/)
+
 # Features
 
 - Show sowing and harvesting months for 50 popular plants
