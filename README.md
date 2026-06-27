@@ -1,59 +1,31 @@
-# CropCalendar
+# Garden Calendar
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.3.
+Know when to sow your plants at a glance. A personal project to practice Angular.
 
-## Development server
+![Banner Image for Garden Calendar](docs/img/screenshot.png)
 
-To start a local development server, run:
+# Features
 
-```bash
-ng serve
-```
+- Show sowing and harvesting months for 50 popular plants
+- Gardening tips for all plants
+- Bookmark your own plants for easy access
+- Filter plants to only show the ones that need to be sown this month...
+- ...or search by name or harvest month
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# Tech Stack
 
-## Code scaffolding
+- Angular
+- Typescript
+- Tailwind CSS
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+# Goal
 
-```bash
-ng generate component component-name
-```
+I built this project because I wanted to refresh my Angular skills, in hindsight, this project wasn't ideal for
+this because I didn't get to use a lot of Angular features.
+Nevertheless, it wasn't for nothing, and I learnt something along the way.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+# Use of AI
 
-```bash
-ng generate --help
-```
+AI was used to generate all data displayed on the site, including plant names, sowing and harvesting months,
+plant details, and gardening tips.
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
