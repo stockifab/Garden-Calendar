@@ -1,18 +1,22 @@
-<table class="w-full overflow-y-scroll">
+<table class="w-full">
   <tr class="sticky top-0 bg-gray-200">
     <th class="p-1 w-60" scope="col"></th>
     @for (month of months; track month.value) {
-      <th [class]="{ 'bg-orange-500/40': month.value === currentMonth() }" class="p-1" scope="col">
+      <th [class]="{ 'bg-amber-400/40': month.value === currentMonth() }" class="p-1" scope="col">
         {{ month.label }}
       </th>
     }
   </tr>
   @for (plant of plants(); track plant.name) {
-    <tr [class.bg-gray-100]="$even">
+    <tr (click)="detailPlant.set(plant)" [class.bg-emerald-100]="plant === detailPlant()"
+        [class.bg-gray-100]="$even && plant !== detailPlant()"
+        [class.opacity-25]="plant !== detailPlant() && detailPlant() !== undefined"
+        class="cursor-pointer">
       <th class="p-3 text-left" scope="row">
         <div class="flex justify-between items-center h-full">
           <p>{{ plant.name }}</p>
-          <button (click)="ps.toggleBookmark(plant)" class="text-gray-500 hover:text-gray-700">
+          <button (click)="ps.toggleBookmark(plant); $event.stopPropagation()"
+                  class="text-gray-500 hover:text-gray-700">
             @if (ps.isBookmarked(plant)) {
               <svg color="#525252" fill="#FACC15" lucideBookmark></svg>
             } @else {
@@ -23,13 +27,49 @@
       </th>
       @for (month of months; track month.value) {
         <td
-          [class]="{ 'bg-orange-200/20': month.value === currentMonth() }"
-          class="h-16 align-middle border-l border-l-gray-300"
+          [class]="{ 'bg-amber-200/20': month.value === currentMonth() }"
+          class="align-middle border-l border-l-gray-300"
         >
-          <div [class.bg-green-300]="ps.isSeeding(plant, month.value)" class="h-5"></div>
-          <div [class.bg-red-300]="ps.isHarvesting(plant, month.value)" class="h-5"></div>
+          @if (plant.indoor) {
+            <div [class.bg-sky-300]="ps.inRange(month.value, plant.indoor)"
+                 [class.rounded-bl-sm]="month.value === plant.indoor.month_start"
+                 [class.rounded-br-sm]="month.value === plant.indoor.month_end"
+                 [class.rounded-tl-sm]="month.value === plant.indoor.month_start"
+                 [class.rounded-tr-sm]="month.value === plant.indoor.month_end"
+                 class="h-5"
+            ></div>
+          }
+          <div [class.bg-emerald-400]="ps.inRange(month.value, plant.seed)"
+               [class.rounded-bl-sm]="month.value === plant.seed.month_start"
+               [class.rounded-br-sm]="month.value === plant.seed.month_end"
+               [class.rounded-tl-sm]="month.value === plant.seed.month_start"
+               [class.rounded-tr-sm]="month.value === plant.seed.month_end"
+               class="h-5"
+          ></div>
+          <div [class.bg-amber-400]="ps.inRange(month.value, plant.harvest)"
+               [class.rounded-bl-sm]="month.value === plant.harvest.month_start"
+               [class.rounded-br-sm]="month.value === plant.harvest.month_end"
+               [class.rounded-tl-sm]="month.value === plant.harvest.month_start"
+               [class.rounded-tr-sm]="month.value === plant.harvest.month_end"
+               class="h-5"
+          ></div>
         </td>
       }
     </tr>
   }
 </table>
+
+<div class="absolute bottom-0 right-0 gap-3 p-2 bg-white rounded-tl-lg drop-shadow-lg border-2 border-gray-200">
+  <div class="flex items-center gap-2">
+    <div class="bg-sky-300 h-5 w-20 rounded-sm"></div>
+    <p>Sow indoors</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <div class="bg-emerald-400 h-5 w-20 rounded-sm"></div>
+    <p>Direct sow</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <div class="bg-amber-400 h-5 w-20 rounded-sm"></div>
+    <p>Harvest</p>
+  </div>
+</div>

@@ -1,7 +1,10 @@
 <div class="flex h-screen">
-  <as-split gutterSize="8">
-    <as-split-area class="bg-gray-200 p-2" maxSize="30" minSize="10" size="15">
-      <h1 class="text-xl">Crop Calendar</h1>
+  <as-split>
+    <as-split-area class="bg-gray-200 p-4 relative" maxSize="30" minSize="10" size="15">
+      <div class="flex items-center gap-4">
+        <img alt="" height="30" ngSrc="/images/logo.png" width="30" />
+        <h1 class="text-2xl">Crop Calendar</h1>
+      </div>
       <hr class="my-4" />
       <p class="text-lg">Filter</p>
       <form class="flex flex-col gap-2">
@@ -31,10 +34,19 @@
           Can be sown this month
         </label>
       </form>
+      <div class="absolute flex items-center gap-4 bottom-0 left-0 p-4">
+        <svg lucideCircleAlert class="text-gray-500" />
+        <p class="text-sm text-gray-500">
+          All dates are for the Central European climate.
+          Dates might not apply for your region.
+        </p>
+      </div>
+
     </as-split-area>
-    <as-split-area class="w-full h-screen">
-      <div class="h-full flex flex-col">
-        <app-plant-calendar [plants]="filteredPlants()" class="block flex-none duration-300" />
+    <as-split-area class="w-full h-screen relative">
+      <div class="h-full flex flex-col overflow-y-auto">
+        <app-plant-calendar [(detailPlant)]="detailPlant" [plants]="filteredPlants()"
+                            class="block flex-none duration-300" />
         @if (filteredPlants().length === 0) {
           <div class="flex flex-col items-center justify-center gap-6 flex-1">
             <img alt="" height="256" ngSrc="/images/empty_no_plants.png" width="237" />
@@ -49,5 +61,25 @@
         }
       </div>
     </as-split-area>
+    @if (detailPlant()) {
+      <as-split-area class="bg-gray-200 p-4" maxSize="30" minSize="10" size="15">
+        <div class="flex justify-between">
+          <h1 class="text-xl">{{ detailPlant()!.name }}</h1>
+          <button (click)="detailPlant.set(undefined)">
+            <svg lucideXCircle />
+          </button>
+        </div>
+        <p class="text-lg font-bold flex items-center mt-8 mb-2 gap-2">
+          <svg lucideInfo />
+          Details
+        </p>
+        <p>{{ detailPlant()!.description }}</p>
+        <p class="text-lg font-bold flex items-center mt-8 mb-2 gap-2">
+          <svg lucideLightbulb />
+          Tip
+        </p>
+        <p>{{ detailPlant()!.tip }}</p>
+      </as-split-area>
+    }
   </as-split>
 </div>

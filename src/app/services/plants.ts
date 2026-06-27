@@ -14,13 +14,6 @@ export class Plants {
     this.loadBookmarkedFromStorage()
   }
 
-  private loadBookmarkedFromStorage(): void {
-    const names = localStorage.getItem('bookmarked');
-    if (names) {
-      this.bookmarkedNames.set(new Set(JSON.parse(names)));
-    }
-  }
-
   isBookmarked(plant: Plant): boolean {
     return this.bookmarkedNames().has(plant.name);
   }
@@ -37,15 +30,14 @@ export class Plants {
     });
   }
 
-  isSeeding(plant: Plant, month: number): boolean {
-    return this.inRange(month, plant.seed);
+  private loadBookmarkedFromStorage(): void {
+    const names = localStorage.getItem('bookmarked');
+    if (names) {
+      this.bookmarkedNames.set(new Set(JSON.parse(names)));
+    }
   }
 
-  isHarvesting(plant: Plant, month: number): boolean {
-    return this.inRange(month, plant.harvest);
-  }
-
-  private inRange(month: number, { start, end }: Plant['seed']): boolean {
-    return end >= start ? month >= start && month <= end : month >= start || month <= end;
+  inRange(month: number, { month_start, month_end }: Plant['seed']): boolean {
+    return month_end >= month_start ? month >= month_start && month <= month_end : month >= month_start || month <= month_end;
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, model, signal } from '@angular/core';
 import { Plant } from '../../../data';
 import { Plants } from '../../services/plants';
 import { LucideBookmark } from '@lucide/angular';
@@ -26,6 +26,8 @@ const MONTHS: ReadonlyArray<{ label: string; value: number }> = [
 })
 export class PlantCalendar {
   readonly plants = input.required<Plant[]>();
+  readonly detailPlant = model.required<Plant | undefined>();
+
   protected readonly ps = inject(Plants);
   protected readonly months = MONTHS;
   protected readonly currentMonth = signal(new Date().getMonth() + 1);
