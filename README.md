@@ -31,3 +31,4 @@ Nevertheless, it wasn't for nothing, and I learnt something along the way.
 AI was used to generate all data displayed on the site, including plant names, sowing and harvesting months,
 plant details, and gardening tips.
 
+AI also generated the logo, banner, and empty state illustration.
